@@ -1,0 +1,28 @@
+# redis-activesupport script in Perl
+
+use strict;
+use warnings;
+use JSON;
+use LWP::UserAgent;
+
+my ${file} = "main";
+my ${project} = "redis-activesupport";
+
+# Read file
+if (-e ${file}) {
+    open my ${fh}, '<', ${file} or die "Cannot open ${file}: $!";
+    my @lines = <${fh}>;
+    close ${fh};
+    print "Read ".scalar(@lines)." lines from ${file}\n";
+} else {
+    warn "File ${file} not found";
+}
+
+# HTTP request
+my ${ua} = LWP::UserAgent->new;
+my ${response} = ${ua}->get("https://api.example.com/status");
+if (${response}->is_success) {
+    print "API reachable\n";
+} else {
+    warn "API check failed: ".${response}->status_line;
+}
